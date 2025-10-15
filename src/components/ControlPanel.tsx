@@ -2,24 +2,29 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import { Play, Square, RotateCcw } from "lucide-react";
 
 interface ControlPanelProps {
   isRunning: boolean;
   selectedPath: string;
+  channels: number;
   onStart: () => void;
   onStop: () => void;
   onReset: () => void;
   onPathChange: (path: string) => void;
+  onChannelsChange: (channels: number) => void;
 }
 
 export const ControlPanel = ({
   isRunning,
   selectedPath,
+  channels,
   onStart,
   onStop,
   onReset,
   onPathChange,
+  onChannelsChange,
 }: ControlPanelProps) => {
   return (
     <Card className="p-6">
@@ -41,6 +46,21 @@ export const ControlPanel = ({
               </SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="channels-slider">
+            Parallele Kanäle: {channels}/10
+          </Label>
+          <Slider
+            id="channels-slider"
+            min={0}
+            max={10}
+            step={1}
+            value={[channels]}
+            onValueChange={(value) => onChannelsChange(value[0])}
+            disabled={isRunning}
+          />
         </div>
 
         <div className="flex gap-2">
