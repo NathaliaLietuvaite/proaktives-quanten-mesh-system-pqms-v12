@@ -6,6 +6,7 @@ import { ControlPanel } from "@/components/ControlPanel";
 import { OnboardingModal } from "@/components/OnboardingModal";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { MetricsChart } from "@/components/MetricsChart";
+import { ChatBot } from "@/components/ChatBot";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
@@ -40,8 +41,10 @@ const Index = () => {
 
   const simulateTransmission = () => {
     const path = selectedPath === "primary" 
-      ? ["Mars", "Repeater1", "Erde"]
-      : ["Mars", "Repeater2_Backup", "Erde"];
+      ? ["Mars", "Repeater1B", "Repeater1A", "Erde"]
+      : selectedPath === "backup"
+      ? ["Mars", "Repeater2B", "Repeater2A", "Erde"]
+      : ["Mars", "Repeater3", "Erde"];
 
     setActivePath(path);
     setMetrics((prev) => ({ ...prev, activeChannels: channels }));
@@ -233,6 +236,8 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      <ChatBot />
     </div>
   );
 };

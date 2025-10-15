@@ -39,10 +39,13 @@ export const ControlPanel = ({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="primary">
-                Primär: Mars → Repeater1 → Erde
+                Primär: Mars → R1-B → R1-A → Erde
               </SelectItem>
               <SelectItem value="backup">
-                Backup: Mars → Repeater2 → Erde
+                Backup: Mars → R2-B → R2-A → Erde
+              </SelectItem>
+              <SelectItem value="bridge">
+                Bridge: Mars → R3-Bridge → Erde
               </SelectItem>
             </SelectContent>
           </Select>

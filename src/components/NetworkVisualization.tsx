@@ -24,17 +24,29 @@ export const NetworkVisualization = ({ activePath, transmitting }: NetworkVisual
   const [animationFrame, setAnimationFrame] = useState(0);
 
   const nodes: Node[] = [
-    { id: "Erde", x: 100, y: 250, type: "planet", label: "Erde" },
-    { id: "Repeater1", x: 300, y: 150, type: "repeater", label: "Repeater 1" },
-    { id: "Repeater2_Backup", x: 300, y: 350, type: "repeater", label: "Repeater 2" },
-    { id: "Mars", x: 500, y: 250, type: "planet", label: "Mars" },
+    { id: "Erde", x: 80, y: 250, type: "planet", label: "Erde" },
+    { id: "Repeater1A", x: 220, y: 120, type: "repeater", label: "R1-A" },
+    { id: "Repeater1B", x: 380, y: 120, type: "repeater", label: "R1-B" },
+    { id: "Repeater2A", x: 220, y: 380, type: "repeater", label: "R2-A" },
+    { id: "Repeater2B", x: 380, y: 380, type: "repeater", label: "R2-B" },
+    { id: "Repeater3", x: 300, y: 250, type: "repeater", label: "R3-Bridge" },
+    { id: "Mars", x: 520, y: 250, type: "planet", label: "Mars" },
   ];
 
   const links: Link[] = [
-    { source: "Erde", target: "Repeater1" },
-    { source: "Erde", target: "Repeater2_Backup" },
-    { source: "Repeater1", target: "Mars" },
-    { source: "Repeater2_Backup", target: "Mars" },
+    // Pfad 1 (oben)
+    { source: "Erde", target: "Repeater1A" },
+    { source: "Repeater1A", target: "Repeater1B" },
+    { source: "Repeater1B", target: "Mars" },
+    // Pfad 2 (unten)
+    { source: "Erde", target: "Repeater2A" },
+    { source: "Repeater2A", target: "Repeater2B" },
+    { source: "Repeater2B", target: "Mars" },
+    // Pfad 3 (Verbindung)
+    { source: "Erde", target: "Repeater3" },
+    { source: "Repeater3", target: "Repeater1B" },
+    { source: "Repeater3", target: "Repeater2B" },
+    { source: "Repeater3", target: "Mars" },
   ];
 
   useEffect(() => {
