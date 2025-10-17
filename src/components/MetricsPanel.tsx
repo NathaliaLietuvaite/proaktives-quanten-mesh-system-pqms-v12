@@ -7,6 +7,11 @@ interface MetricsPanelProps {
   successRate: number;
   quality: number;
   activeChannels: number;
+  adagradConvergence?: number;
+  bpIterations?: number;
+  surfaceCodeFidelity?: number;
+  cmeFlux?: number;
+  qber?: number;
 }
 
 export const MetricsPanel = ({
@@ -15,8 +20,13 @@ export const MetricsPanel = ({
   successRate,
   quality,
   activeChannels,
+  adagradConvergence = 1,
+  bpIterations = 0,
+  surfaceCodeFidelity = 0.95,
+  cmeFlux = 1.0,
+  qber = 0,
 }: MetricsPanelProps) => {
-  const metrics = [
+  const coreMetrics = [
     {
       label: "Setup-Latenz",
       value: `${setupLatency.toFixed(3)} s`,
@@ -32,13 +42,6 @@ export const MetricsPanel = ({
       bgColor: "bg-accent/10",
     },
     {
-      label: "Erfolgsrate",
-      value: `${(successRate * 100).toFixed(1)}%`,
-      icon: CheckCircle2,
-      color: "text-metric-positive",
-      bgColor: "bg-metric-positive/10",
-    },
-    {
       label: "Qualität",
       value: `${(quality * 100).toFixed(1)}%`,
       icon: Activity,
@@ -47,19 +50,38 @@ export const MetricsPanel = ({
     },
   ];
 
+  const v18Metrics = [
+    {
+      label: "AdaGrad Konvergenz",
+      value: `${(adagradConvergence * 100).toFixed(1)}%`,
+      subValue: `${bpIterations} Iterationen`,
+    },
+    {
+      label: "Surface Code Fidelity",
+      value: `${(surfaceCodeFidelity * 100).toFixed(2)}%`,
+      subValue: `QBER: ${(qber * 100).toFixed(3)}%`,
+    },
+    {
+      label: "CME Flux",
+      value: `${cmeFlux.toFixed(2)}x`,
+      subValue: cmeFlux > 1.5 ? "Erhöht" : "Normal",
+    },
+  ];
+
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">System-Metriken</h3>
-      <div className="grid grid-cols-2 gap-4">
-        {metrics.map((metric) => (
+      <h3 className="text-lg font-semibold">System-Metriken v18</h3>
+      
+      <div className="grid grid-cols-2 gap-3">
+        {coreMetrics.map((metric) => (
           <Card key={metric.label} className="p-4">
             <div className="flex items-start justify-between">
               <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">{metric.label}</p>
-                <p className="text-2xl font-bold">{metric.value}</p>
+                <p className="text-xs text-muted-foreground">{metric.label}</p>
+                <p className="text-xl font-bold">{metric.value}</p>
               </div>
               <div className={`${metric.bgColor} ${metric.color} p-2 rounded-lg`}>
-                <metric.icon className="w-5 h-5" />
+                <metric.icon className="w-4 h-4" />
               </div>
             </div>
           </Card>
@@ -78,6 +100,24 @@ export const MetricsPanel = ({
               style={{ width: `${(activeChannels / 10) * 100}%` }}
             />
           </div>
+        </div>
+      </Card>
+
+      <Card className="p-4 bg-muted/30">
+        <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
+          <Activity className="w-4 h-4" />
+          AdaGrad BP-Decoder v18
+        </h4>
+        <div className="space-y-3">
+          {v18Metrics.map((metric) => (
+            <div key={metric.label} className="flex items-center justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground">{metric.label}</p>
+                <p className="text-xs text-muted-foreground/70">{metric.subValue}</p>
+              </div>
+              <p className="text-lg font-bold">{metric.value}</p>
+            </div>
+          ))}
         </div>
       </Card>
     </div>

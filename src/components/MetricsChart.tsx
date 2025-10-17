@@ -8,6 +8,8 @@ interface MetricsChartProps {
     transmitLatency: number;
     quality: number;
     successRate: number;
+    adagradConvergence: number;
+    surfaceCodeFidelity: number;
   }>;
 }
 
@@ -50,7 +52,7 @@ export const MetricsChart = ({ history }: MetricsChartProps) => {
         </div>
 
         <div>
-          <p className="text-sm text-muted-foreground mb-2">Qualität (%)</p>
+          <p className="text-sm text-muted-foreground mb-2">Qualität & Fidelity (%)</p>
           <ResponsiveContainer width="100%" height={120}>
             <LineChart data={history}>
               <XAxis 
@@ -74,6 +76,47 @@ export const MetricsChart = ({ history }: MetricsChartProps) => {
                 type="monotone" 
                 dataKey="quality" 
                 stroke="hsl(var(--metric-positive))" 
+                strokeWidth={2}
+                dot={false}
+                name="Qualität"
+              />
+              <Line 
+                type="monotone" 
+                dataKey="surfaceCodeFidelity" 
+                stroke="hsl(var(--accent))" 
+                strokeWidth={2}
+                dot={false}
+                name="Surface Code"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div>
+          <p className="text-sm text-muted-foreground mb-2">AdaGrad Konvergenz (%)</p>
+          <ResponsiveContainer width="100%" height={120}>
+            <LineChart data={history}>
+              <XAxis 
+                dataKey="time" 
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={10}
+              />
+              <YAxis 
+                stroke="hsl(var(--muted-foreground))"
+                fontSize={10}
+                domain={[50, 100]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px",
+                }}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="adagradConvergence" 
+                stroke="hsl(var(--primary))" 
                 strokeWidth={2}
                 dot={false}
               />
